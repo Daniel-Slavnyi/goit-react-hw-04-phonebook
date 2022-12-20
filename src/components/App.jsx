@@ -1,7 +1,5 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { nanoid } from 'nanoid';
-
 import ContactForm from './ContactForm/ContactForm';
 import Filter from './Filter/Filter';
 import ContactList from './ContactList/ContactList';
@@ -15,30 +13,20 @@ export default class App extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
-    name: '',
-    number: '',
   };
 
-  handleDataUser = e => {
-    const { name, value } = e.target;
-    console.log(value);
-    this.setState({ [name]: value });
-  };
-
-  makeNewUser = () => {
-    if (this.state.contacts.some(item => item.name === this.state.name)) {
-      return alert('ups');
+  makeNewUser = obj => {
+    if (
+      this.state.contacts.some(
+        item => item.name.toLowerCase() === obj.name.toLowerCase()
+      )
+    ) {
+      return alert(`${obj.name} is already in contacts`);
     }
-
-    const newUser = {
-      id: nanoid(),
-      name: this.state.name,
-      number: this.state.number,
-    };
 
     this.setState(prevState => {
       return {
-        contacts: [...prevState.contacts, newUser],
+        contacts: [...prevState.contacts, obj],
       };
     });
   };
@@ -55,24 +43,24 @@ export default class App extends Component {
     return contacts.filter(item => item.name.toLowerCase().includes(userLower));
   };
 
-  render() {
-    const { name, number } = this.state;
+  deleteUser = idUser => {
+    this.setState(prevState => {
+      return {
+        contacts: prevState.contacts.filter(el => el.id !== idUser),
+      };
+    });
+  };
 
+  render() {
     const visibleUser = this.getUser();
 
     return (
       <>
         <h1>Phonebook</h1>
-        <ContactForm
-          makeNewUser={this.makeNewUser}
-          handleDataUser={this.handleDataUser}
-          valueName={name}
-          valueNumber={number}
-        />
-
+        <ContactForm makeNewUser={this.makeNewUser} />
         <h2>Contacts</h2>
         <Filter handleFilter={this.handleFilter} value={this.state.filter} />
-        <ContactList users={visibleUser} />
+        <ContactList users={visibleUser} deleteUser={this.deleteUser} />
       </>
     );
   }

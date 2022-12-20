@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function Filter({ handleFilter, value }) {
   return (
@@ -12,3 +13,8 @@ export default function Filter({ handleFilter, value }) {
     />
   );
 }
+
+Filter.propTypes = {
+  handleFilter: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+};

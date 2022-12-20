@@ -1,39 +1,59 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { nanoid } from 'nanoid';
+import { Component } from 'react';
 
-export default function ({
-  makeNewUser,
-  handleDataUser,
-  valueName,
-  valueNumber,
-}) {
-  return (
-    <form
-      action=""
-      onSubmit={e => {
-        e.preventDefault();
+export default class ContactForm extends Component {
+  state = {
+    name: '',
+    number: '',
+  };
 
-        makeNewUser();
-      }}
-    >
-      <input
-        type="text"
-        name="name"
-        value={valueName}
-        pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-        title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-        required
-        onChange={handleDataUser}
-      />
-      <input
-        type="tel"
-        name="number"
-        value={valueNumber}
-        pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-        title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-        required
-        onChange={handleDataUser}
-      />
-      <button type="submit">Push me</button>
-    </form>
-  );
+  handleDataUser = e => {
+    const { name, value } = e.target;
+    console.log(value);
+    this.setState({ [name]: value });
+  };
+
+  makeObjNewUser = e => {
+    e.preventDefault();
+
+    const newUser = {
+      id: nanoid(),
+      name: this.state.name,
+      number: this.state.number,
+    };
+
+    this.props.makeNewUser(newUser);
+  };
+
+  render() {
+    return (
+      <form action="" onSubmit={this.makeObjNewUser}>
+        <input
+          type="text"
+          name="name"
+          value={this.state.name}
+          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+          required
+          onChange={this.handleDataUser}
+        />
+        <input
+          type="tel"
+          name="number"
+          value={this.state.number}
+          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+          required
+          onChange={this.handleDataUser}
+        />
+        <button type="submit">Push me</button>
+      </form>
+    );
+  }
 }
+
+ContactForm.propTypes = {
+  makeNewUser: PropTypes.func.isRequired,
+};
