@@ -1,8 +1,9 @@
 // import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import ContactForm from './ContactForm/ContactForm';
-import Filter from './Filter/Filter';
-import ContactList from './ContactList/ContactList';
+import ContactForm from '../ContactForm/ContactForm';
+import Filter from '../Filter/Filter';
+import ContactList from '../ContactList/ContactList';
+import { Wrapper, Title } from './App.styled';
 
 export default class App extends Component {
   state = {
@@ -55,13 +56,14 @@ export default class App extends Component {
     const visibleUser = this.getUser();
 
     return (
-      <>
-        <h1>Phonebook</h1>
+      <Wrapper>
+        <Title>Phonebook</Title>
         <ContactForm makeNewUser={this.makeNewUser} />
+
         <h2>Contacts</h2>
         <Filter handleFilter={this.handleFilter} value={this.state.filter} />
         <ContactList users={visibleUser} deleteUser={this.deleteUser} />
-      </>
+      </Wrapper>
     );
   }
 }

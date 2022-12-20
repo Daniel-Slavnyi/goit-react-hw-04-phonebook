@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import { Component } from 'react';
+import { Form, Input, Button, Bg } from './ContactForm.styled';
 
 export default class ContactForm extends Component {
   state = {
@@ -29,8 +30,8 @@ export default class ContactForm extends Component {
 
   render() {
     return (
-      <form action="" onSubmit={this.makeObjNewUser}>
-        <input
+      <Form action="" onSubmit={this.makeObjNewUser}>
+        <Input
           type="text"
           name="name"
           value={this.state.name}
@@ -39,7 +40,7 @@ export default class ContactForm extends Component {
           required
           onChange={this.handleDataUser}
         />
-        <input
+        <Input
           type="tel"
           name="number"
           value={this.state.number}
@@ -48,8 +49,9 @@ export default class ContactForm extends Component {
           required
           onChange={this.handleDataUser}
         />
-        <button type="submit">Push me</button>
-      </form>
+        <Button type="submit">Push me</Button>
+        <Bg />
+      </Form>
     );
   }
 }
