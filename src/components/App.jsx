@@ -21,10 +21,15 @@ export default class App extends Component {
 
   handleDataUser = e => {
     const { name, value } = e.target;
+    console.log(value);
     this.setState({ [name]: value });
   };
 
   makeNewUser = () => {
+    if (this.state.contacts.some(item => item.name === this.state.name)) {
+      return alert('ups');
+    }
+
     const newUser = {
       id: nanoid(),
       name: this.state.name,
@@ -38,8 +43,22 @@ export default class App extends Component {
     });
   };
 
-  render() {
+  handleFilter = e => {
+    const { value } = e.target;
+    this.setState({ filter: value });
+  };
+
+  getUser = () => {
     const { contacts } = this.state;
+    const userLower = this.state.filter.toLowerCase();
+
+    return contacts.filter(item => item.name.toLowerCase().includes(userLower));
+  };
+
+  render() {
+    const { name, number } = this.state;
+
+    const visibleUser = this.getUser();
 
     return (
       <>
@@ -47,11 +66,13 @@ export default class App extends Component {
         <ContactForm
           makeNewUser={this.makeNewUser}
           handleDataUser={this.handleDataUser}
+          valueName={name}
+          valueNumber={number}
         />
 
         <h2>Contacts</h2>
-        <Filter />
-        <ContactList users={contacts} />
+        <Filter handleFilter={this.handleFilter} value={this.state.filter} />
+        <ContactList users={visibleUser} />
       </>
     );
   }
