@@ -1,23 +1,40 @@
 import styled from "@emotion/styled/macro";
-import imgBg from '../App/bg.png'
 
+export const UlList = styled.ul`
+display: block;
+height: auto;
 
-
-
-export const Form = styled.form`
-gap: 20px;
+width: 500px;
+box-sizing: border-box;
+list-style: none;
 position: relative;
 margin: 0 auto;
-width: 500px;
-height: 300px;
+padding: 40px;
+`
+
+export const Bg = styled.div`
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgb(255 255 255 / 8%);;
+z-index: 0;
+filter: blur(3px);
+border-radius: 15px;
+box-shadow: inset 8px 8px 20px 0px #68b4cf, inset -10px -10px 20px 0px #cd5a79;
+`  
+export const Item = styled.li`
+font-family: 'Caveat', cursive;
+color: #002d3e;
+margin-bottom: 20px;
 display: flex;
 align-items: center;
-justify-content: center;
-flex-direction: column;
-` 
+justify-content: space-between;
+
+`
 
 export const Button = styled.button`
-margin-top: 20px;
 z-index: 100;
  cursor: pointer;
   position: relative;
@@ -43,7 +60,7 @@ z-index: 100;
   
 
   &::before {
- content: '+';
+ content: '-';
   user-select: none;
   position: absolute;
   top: 50%;
@@ -60,54 +77,4 @@ z-index: 100;
      border-color: #7c7c7c;
   background-image: linear-gradient(120deg, #ac62ff 0%, #03f3ff 100%);
   color: #fff;
-  }
 `
-export const Bg = styled.div`
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background-color: rgb(255 255 255 / 8%);;
-z-index: 0;
-filter: blur(3px);
-border-radius: 15px;
-box-shadow: inset 8px 8px 20px 0px #68b4cf, inset -10px -10px 20px 0px #cd5a79;
-`
-
-export const Label = styled.label`
-position: relative;
-
-`
-
-export const Input = styled.input`
-z-index: 300;
-width: 300px;
-background: transparent;
-border: none;
-border-bottom: 2px solid white;
-outline: transparent;
-`
-
-export const Span = styled.span`
-position: absolute;
-color: white;
-font-size: 20px;
-font-family: 'Caveat', cursive;
-top: -5px;
-left: 5px;
-text-align: right;
-transition: all 1s ease;
-
-${Input}:focus-within + & {
-    transform: translateX(-140%);
-    color: $contrastColor;
-}
-
-${Input}:not(:placeholder-shown) + & {
-  transform: translateX(-140%);
-  color: $contrastColor;
-}
-
-`
-

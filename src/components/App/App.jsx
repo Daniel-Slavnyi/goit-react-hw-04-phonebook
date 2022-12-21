@@ -60,7 +60,7 @@ export default class App extends Component {
         <Title>Phonebook</Title>
         <ContactForm makeNewUser={this.makeNewUser} />
 
-        <h2>Contacts</h2>
+        <Title>Contacts</Title>
         <Filter handleFilter={this.handleFilter} value={this.state.filter} />
         <ContactList users={visibleUser} deleteUser={this.deleteUser} />
       </Wrapper>
