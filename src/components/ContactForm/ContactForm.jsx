@@ -12,7 +12,6 @@ export default class ContactForm extends Component {
 
   handleDataUser = e => {
     const { name, value } = e.target;
-    console.log(value);
     this.setState({ [name]: value });
   };
 
@@ -26,6 +25,8 @@ export default class ContactForm extends Component {
     };
 
     this.props.makeNewUser(newUser);
+
+    this.setState({ name: '', number: '' });
   };
 
   render() {

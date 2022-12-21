@@ -77,4 +77,5 @@ z-index: 100;
      border-color: #7c7c7c;
   background-image: linear-gradient(120deg, #ac62ff 0%, #03f3ff 100%);
   color: #fff;
+  }
 `
