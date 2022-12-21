@@ -1,5 +1,5 @@
 import styled from "@emotion/styled/macro";
-import imgBg from '../App/bg.png'
+
 
 
 
