@@ -7,12 +7,18 @@ import { Wrapper, Title } from './App.styled';
 
 export default class App extends Component {
   state = {
-    contacts: [
+    contacts: JSON.parse(localStorage.getItem('contacts')) ?? [
       { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
       { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
     ],
     filter: '',
   };
+
+  componentDidUpdate(_, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   makeNewUser = obj => {
     if (
@@ -37,9 +43,11 @@ export default class App extends Component {
 
   getUser = () => {
     const { contacts } = this.state;
-    const userLower = this.state.filter.toLowerCase();
+    const userLower = this.state.filter.toLowerCase().trim();
 
-    return contacts.filter(item => item.name.toLowerCase().includes(userLower));
+    return contacts.filter(item =>
+      item.name.toLowerCase().trim().includes(userLower)
+    );
   };
 
   deleteUser = idUser => {

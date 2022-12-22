@@ -5,7 +5,7 @@ import { UlList, Bg, Button, Item } from './ContactList.styled';
 export default function ContactList({ users, deleteUser }) {
   return (
     <UlList>
-      <Bg />
+      {/* <Bg /> */}
       {users.map(({ id, name, number }) => (
         <Item key={id}>
           <p>
