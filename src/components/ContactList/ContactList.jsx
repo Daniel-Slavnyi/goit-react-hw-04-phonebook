@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { UlList, Bg, Button, Item } from './ContactList.styled';
+import { UlList, Button, Item } from './ContactList.styled';
 
 export default function ContactList({ users, deleteUser }) {
   return (
     <UlList>
-      {/* <Bg /> */}
       {users.map(({ id, name, number }) => (
         <Item key={id}>
           <p>
