@@ -1,75 +1,68 @@
-// import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import ContactForm from '../ContactForm/ContactForm';
 import Filter from '../Filter/Filter';
 import ContactList from '../ContactList/ContactList';
 import { Wrapper, Title } from './App.styled';
 
-export default class App extends Component {
-  state = {
-    contacts: JSON.parse(localStorage.getItem('contacts')) ?? [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-    ],
-    filter: '',
-  };
+import { useState, useEffect } from 'react';
 
-  componentDidUpdate(_, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
+const useLocalStorage = (key, defaultValue) => {
+  const [state, setState] = useState(() => {
+    return JSON.parse(localStorage.getItem(key)) ?? defaultValue;
+  });
 
-  makeNewUser = obj => {
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(state));
+  }, [state]);
+
+  return [state, setState];
+};
+
+export default function App() {
+  const [contacts, setContacts] = useLocalStorage('contacts', [
+    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+  ]);
+  const [filter, setFilter] = useState('');
+
+  const makeNewUser = obj => {
     if (
-      this.state.contacts.some(
-        item => item.name.toLowerCase() === obj.name.toLowerCase()
-      )
+      contacts.some(item => item.name.toLowerCase() === obj.name.toLowerCase())
     ) {
       return alert(`${obj.name} is already in contacts`);
     }
 
-    this.setState(prevState => {
-      return {
-        contacts: [...prevState.contacts, obj],
-      };
+    setContacts(prevState => {
+      return [...prevState, obj];
     });
   };
 
-  handleFilter = e => {
+  const handleFilter = e => {
     const { value } = e.target;
-    this.setState({ filter: value });
+    setFilter(value);
   };
 
-  getUser = () => {
-    const { contacts } = this.state;
-    const userLower = this.state.filter.toLowerCase().trim();
+  const getUser = () => {
+    const userLower = filter.toLowerCase().trim();
 
     return contacts.filter(item =>
       item.name.toLowerCase().trim().includes(userLower)
     );
   };
 
-  deleteUser = idUser => {
-    this.setState(prevState => {
-      return {
-        contacts: prevState.contacts.filter(el => el.id !== idUser),
-      };
+  const deleteUser = idUser => {
+    setContacts(prevState => {
+      return prevState.filter(el => el.id !== idUser);
     });
   };
 
-  render() {
-    const visibleUser = this.getUser();
+  return (
+    <Wrapper>
+      <Title>Phonebook</Title>
+      <ContactForm makeNewUser={makeNewUser} />
 
-    return (
-      <Wrapper>
-        <Title>Phonebook</Title>
-        <ContactForm makeNewUser={this.makeNewUser} />
-
-        <Title>Contacts</Title>
-        <Filter handleFilter={this.handleFilter} value={this.state.filter} />
-        <ContactList users={visibleUser} deleteUser={this.deleteUser} />
-      </Wrapper>
-    );
-  }
+      <Title>Contacts</Title>
+      <Filter handleFilter={handleFilter} value={filter} />
+      <ContactList users={getUser()} deleteUser={deleteUser} />
+    </Wrapper>
+  );
 }
